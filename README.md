@@ -18,12 +18,16 @@ Skills are executable runbooks that Claude Code follows step-by-step. They combi
 | [`/worklog`](skills/worklog.md) | Generate session worklog and save to Obsidian |
 | [`/screenshot`](skills/screenshot.md) | Capture localhost pages for visual verification |
 | [`/deploy`](skills/deploy.md) | Deploy application to production (template) |
+| [`/quick-deploy`](skills/quick-deploy.md) | Fast deployment with Docker layer caching |
+| [`/sprint-review`](skills/sprint-review.md) | Generate sprint review checklist from git history |
 
 ### Design
 
 | Skill | Description |
 |-------|-------------|
 | [`/design-explore`](skills/design-explore.md) | AI-powered design exploration with multi-model evaluation |
+| [`/visual-sandwich`](skills/visual-sandwich.md) | Convert mockups to pixel-accurate HTML/CSS via iterative VLM refinement |
+| [`/redesign-my-site`](skills/redesign-my-site.md) | AI site audit with annotated screenshots and mockup generation |
 
 ### Git Worktrees
 
@@ -43,6 +47,16 @@ Skills are executable runbooks that Claude Code follows step-by-step. They combi
 | [`/dag/show-progress`](skills/dag/show-progress.md) | Display DAG progress overview |
 | [`/dag/next-available`](skills/dag/next-available.md) | Find next available node to work on |
 | [`/dag/update-node`](skills/dag/update-node.md) | Update node metadata |
+
+### GridPlay (Project-Specific)
+
+These skills are specific to the GridPlay tournament management system but serve as examples for project-specific skill development.
+
+| Skill | Description |
+|-------|-------------|
+| [`/dag-consult`](skills/gridplay/dag-consult.md) | Query DAG system for cross-workflow impacts |
+| [`/generate-campaign-csv`](skills/gridplay/generate-campaign-csv.md) | Generate Campaign Monitor CSV from Google Sheets |
+| [`/send-invitations`](skills/gridplay/send-invitations.md) | Send tournament invitations via SendGrid |
 
 ---
 
@@ -68,6 +82,55 @@ Generate a structured worklog from your Claude Code session and save it to an Ob
 - File write permissions in Claude Code
 
 **Cost:** Free (no API calls)
+
+---
+
+### `/visual-sandwich` - Mockup to Code Refinement
+
+Convert design mockups to pixel-accurate HTML/CSS through iterative VLM comparison.
+
+**The Pattern:**
+1. Reference design (image) - the target
+2. Current screenshot (image) - what we have now
+3. Current code (text) - the HTML/CSS
+
+The VLM compares and returns specific CSS fixes. Typically converges in 2-4 iterations.
+
+**Usage:**
+```
+/visual-sandwich
+```
+
+**Requirements:**
+- Python 3 with Playwright for screenshots
+- PAL MCP server for VLM comparison
+- Reference design image
+
+**Cost:** ~$0.02-0.10 per iteration
+
+---
+
+### `/redesign-my-site` - AI Site Audit
+
+Full site audit with annotated screenshots showing issues, AI-generated redesign mockups, and implementation CSS.
+
+**Workflow:**
+1. Gather screenshots and understand site purpose
+2. Vision analysis against UX criteria
+3. Generate annotated critique images
+4. Create redesign mockups with Nano Banana Pro
+5. Deliver audit report with implementation CSS
+
+**Usage:**
+```
+/redesign-my-site ~/screenshots/home.png ~/screenshots/about.png
+```
+
+**Requirements:**
+- `GOOGLE_API_KEY` for Nano Banana Pro
+- Python 3 with Pillow
+
+**Cost:** ~$0.40-3.00 per audit
 
 ---
 
@@ -202,18 +265,26 @@ claude-skills/
     ├── worklog.md           # Obsidian worklog generator
     ├── screenshot.md        # Page screenshot capture
     ├── deploy.md            # Deployment template
+    ├── quick-deploy.md      # Fast deployment with Docker cache
+    ├── sprint-review.md     # Sprint review checklist generator
     ├── design-explore.md    # AI design exploration
+    ├── visual-sandwich.md   # Mockup to pixel-accurate code
+    ├── redesign-my-site.md  # AI site audit and redesign
     ├── worktree/            # Git worktree management
     │   ├── worktree-create.md
     │   ├── worktree-status.md
     │   └── worktree-sync-main.md
-    └── dag/                 # DAG workflow management
-        ├── create-work-dag.md
-        ├── start-node.md
-        ├── complete-node.md
-        ├── show-progress.md
-        ├── next-available.md
-        └── update-node.md
+    ├── dag/                 # DAG workflow management
+    │   ├── create-work-dag.md
+    │   ├── start-node.md
+    │   ├── complete-node.md
+    │   ├── show-progress.md
+    │   ├── next-available.md
+    │   └── update-node.md
+    └── gridplay/            # Project-specific examples
+        ├── dag-consult.md
+        ├── generate-campaign-csv.md
+        └── send-invitations.md
 ```
 
 ## License
