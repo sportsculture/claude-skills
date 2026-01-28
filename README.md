@@ -11,6 +11,29 @@ Skills are executable runbooks that Claude Code follows step-by-step. They combi
 
 ## Available Skills
 
+### `/worklog` - Session Worklog Generator
+
+Generate a structured worklog from your Claude Code session and save it to an Obsidian vault.
+
+**Workflow:**
+1. Detects project from git root or working directory
+2. Extracts accomplishments, decisions, files created
+3. Creates worklog in Obsidian vault
+4. Updates daily note with link to worklog
+
+**Usage:**
+```
+/worklog
+```
+
+**Requirements:**
+- Obsidian vault with configured directory structure
+- File write permissions in Claude Code
+
+**Cost:** Free (no API calls)
+
+---
+
 ### `/design-explore` - AI-Powered Design Exploration
 
 Generate visual design directions, get multi-model AI evaluation, and produce implementation-ready CSS/tokens.
