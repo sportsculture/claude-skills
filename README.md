@@ -20,6 +20,7 @@ Skills are executable runbooks that Claude Code follows step-by-step. They combi
 | [`/deploy`](skills/deploy.md) | Deploy application to production (template) |
 | [`/quick-deploy`](skills/quick-deploy.md) | Fast deployment with Docker layer caching |
 | [`/sprint-review`](skills/sprint-review.md) | Generate sprint review checklist from git history |
+| [`/gitlab-manage`](skills/gitlab-manage.md) | Organize GitLab repos into subgroups with READMEs and descriptions |
 
 ### Design
 
@@ -188,6 +189,32 @@ Generate visual design directions, get multi-model AI evaluation, and produce im
 
 ---
 
+### `/gitlab-manage` - GitLab Group Organization
+
+Organize a GitLab group by creating subgroups, transferring repos, generating READMEs, and setting descriptions.
+
+**Workflow:**
+1. Inventory all repos in a GitLab group
+2. Propose subgroup structure based on repo names/contents
+3. Fix repo names (remove `deletion_scheduled` suffixes), unarchive if needed
+4. Create subgroups and transfer repos
+5. Generate READMEs via parallel haiku subagents reading local source code
+6. Set one-line descriptions on all repos for scannable group listings
+
+**Usage:**
+```
+/gitlab-manage todo-software-studios
+/gitlab-manage 121438601
+```
+
+**Requirements:**
+- `glab` CLI authenticated with `api` scope token
+- Local clones of repos (for README generation)
+
+**Cost:** Free (no external API calls)
+
+---
+
 ### Worktree Skills
 
 Manage git worktrees for parallel feature development.
@@ -267,6 +294,7 @@ claude-skills/
     ├── deploy.md            # Deployment template
     ├── quick-deploy.md      # Fast deployment with Docker cache
     ├── sprint-review.md     # Sprint review checklist generator
+    ├── gitlab-manage.md     # GitLab group organization
     ├── design-explore.md    # AI design exploration
     ├── visual-sandwich.md   # Mockup to pixel-accurate code
     ├── redesign-my-site.md  # AI site audit and redesign
